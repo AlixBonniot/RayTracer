@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace config
+namespace Config
 {
 	static constexpr float epsilon{ 0.00001f };
 }
@@ -11,17 +11,17 @@ namespace config
 class Vector3D
 {
 public:
-	Vector3D() = default;
+	Vector3D();
 	Vector3D(const float in_x, const float in_y, const float in_z);
 
-	float length_squared() const;
-	float length() const;
+	float LengthSquared() const;
+	float Length() const;
 
-	static float dot_product(const Vector3D& lhs, const Vector3D& rhs);
-	static Vector3D cross_product(const Vector3D& lhs, const Vector3D& rhs);
+	static float Dot(const Vector3D& lhs, const Vector3D& rhs);
+	static Vector3D Cross(const Vector3D& lhs, const Vector3D& rhs);
 
-	Vector3D& normalize();
-	Vector3D get_normalized() const;
+	Vector3D& Normalize();
+	Vector3D GetNormalized() const;
 
 	Vector3D operator-() const;
 
@@ -40,9 +40,6 @@ public:
 	float x;
 	float y;
 	float z;
-
-public:
-	static Vector3D zero_vector;
 };
 
 Vector3D operator*(const Vector3D& vector, const float scalar);

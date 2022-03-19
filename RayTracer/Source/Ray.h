@@ -9,11 +9,14 @@ public:
 	Ray();
 	Ray(const Vector3D& in_origin, const Vector3D& in_direction);
 
-	Vector3D at(const float t) const;
+	Vector3D GetOrigin() const;
+	Vector3D GetDirection() const;
+
+	Vector3D At(const float t) const;
 
 private:
-	Vector3D origin;
-	Vector3D direction;
+	Vector3D m_origin;
+	Vector3D m_direction;
 };
 
 #endif

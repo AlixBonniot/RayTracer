@@ -2,7 +2,12 @@
 
 #include <cmath>
 
-Vector3D Vector3D::zero_vector{ 0.0f, 0.0f, 0.0f };
+Vector3D::Vector3D()
+: x{ 0.0f }
+, y{ 0.0f }
+, z{ 0.0f }
+{
+}
 
 Vector3D::Vector3D(const float in_x, const float in_y, const float in_z)
 : x{ in_x }
@@ -11,22 +16,22 @@ Vector3D::Vector3D(const float in_x, const float in_y, const float in_z)
 {
 }
 
-float Vector3D::length_squared() const
+float Vector3D::LengthSquared() const
 {
 	return (x * x) + (y * y) + (z * z);
 }
 
-float Vector3D::length() const
+float Vector3D::Length() const
 {
-	return sqrt(length_squared());
+	return sqrt(LengthSquared());
 }
 
-float Vector3D::dot_product(const Vector3D& lhs, const Vector3D& rhs)
+float Vector3D::Dot(const Vector3D& lhs, const Vector3D& rhs)
 {
 	return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z);
 }
 
-Vector3D Vector3D::cross_product(const Vector3D& lhs, const Vector3D& rhs)
+Vector3D Vector3D::Cross(const Vector3D& lhs, const Vector3D& rhs)
 {
 	return 
 	{
@@ -36,10 +41,10 @@ Vector3D Vector3D::cross_product(const Vector3D& lhs, const Vector3D& rhs)
 	};
 }
 
-Vector3D& Vector3D::normalize()
+Vector3D& Vector3D::Normalize()
 {
-	const float vector_length{ length() };
-	if (vector_length < config::epsilon)
+	const float vector_length{ Length() };
+	if (vector_length < Config::epsilon)
 	{
 		return *this;
 	}
@@ -48,9 +53,9 @@ Vector3D& Vector3D::normalize()
 	return *this;
 }
 
-Vector3D Vector3D::get_normalized() const
+Vector3D Vector3D::GetNormalized() const
 {
-	return Vector3D{ *this }.normalize();
+	return Vector3D{ *this }.Normalize();
 }
 
 Vector3D Vector3D::operator-() const
@@ -110,8 +115,8 @@ bool Vector3D::operator==(const Vector3D& rhs) const
 	Vector3D difference{ *this - rhs };
 	// We use epsilon squared in order to avoid
 	// the full length computation
-	const float epsilon_squared{ config::epsilon * config::epsilon };
-	if (difference.length_squared() < epsilon_squared)
+	const float epsilon_squared{ Config::epsilon * Config::epsilon };
+	if (difference.LengthSquared() < epsilon_squared)
 	{
 		return true;
 	}
