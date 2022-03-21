@@ -1,5 +1,6 @@
+#include "HittableList.h"
+#include "Sphere.h"
 #include "Utility.h"
-#include "Vector3D.h"
 
 #include <iostream>
 
@@ -12,6 +13,11 @@ int main()
 	constexpr float aspectRatio{ 2.33333f };
 	constexpr int imageWidth{ 3440 };
 	constexpr int imageHeight{ static_cast<int>(imageWidth / aspectRatio) };
+
+	/*** World ***/
+	HittableList world{};
+	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, 0.0f, -1.0f }, 0.5f }));
+	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, -100.5f, -1.0f }, 100.0f }));
 
 	/*** Camera ***/
 	const float viewportHeight{ 2.0f };
@@ -38,7 +44,7 @@ int main()
 			float v{ float(column) / (imageHeight - 1) };
 
 			const Ray ray{ camera, lowerLeftCorner + (u * horizontal) + (v * vertical) - camera };
-			Vector3D pixel{ RayColor(ray) };
+			Vector3D pixel{ RayColor(ray, world) };
 			WritePixel(std::cout, pixel);
 		}
 	}
