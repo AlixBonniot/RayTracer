@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\HittableList.cpp" />
     <ClCompile Include="Source\Hittable.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Source\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\HittableList.h" />
     <ClInclude Include="Source\Hittable.h" />
     <ClInclude Include="Source\Ray.h" />

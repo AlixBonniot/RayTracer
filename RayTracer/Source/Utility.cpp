@@ -4,14 +4,24 @@
 // Function that write a pixel to the stream
 // R, G, B varie from 0.0f to 1.0f and we convert them
 // to 255 ASCII format
-void WritePixel(std::ostream& out, const Vector3D& pixel)
+void WritePixel(std::ostream& out, const Vector3D& pixel, const int sample)
 {
+	float r{ pixel.x };
+	float g{ pixel.y };
+	float b{ pixel.z };
+
+	// We divide the color by the number of samples
+	const float scale{ 1.0f / sample };
+	r *= scale;
+	g *= scale;
+	b *= scale;
+
 	// Here X, Y and Z, replace the RGB value
 	// because we are using a Vector3D
 	// as Color data type
-	out << static_cast<int>(255.999 * pixel.x) << ' '
-		<< static_cast<int>(255.999 * pixel.y) << ' '
-		<< static_cast<int>(255.999 * pixel.z) << '\n';
+	out << static_cast<int>(256 * Clamp(r, 0.0f, 0.999f)) << ' '
+		<< static_cast<int>(256 * Clamp(g, 0.0f, 0.999f)) << ' '
+		<< static_cast<int>(256 * Clamp(b, 0.0f, 0.999f)) << '\n';
 }
 
 Vector3D RayColor(const Ray& ray, const Hittable& world)
