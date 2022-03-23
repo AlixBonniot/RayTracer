@@ -12,9 +12,9 @@ void WritePixel(std::ostream& out, const Vector3D& pixel, const int sample)
 
 	// We divide the color by the number of samples
 	const float scale{ 1.0f / sample };
-	r *= scale;
-	g *= scale;
-	b *= scale;
+	r = sqrt(r * scale);
+	g = sqrt(g * scale);
+	b = sqrt(b * scale);
 
 	// Here X, Y and Z, replace the RGB value
 	// because we are using a Vector3D
@@ -24,14 +24,21 @@ void WritePixel(std::ostream& out, const Vector3D& pixel, const int sample)
 		<< static_cast<int>(256 * Clamp(b, 0.0f, 0.999f)) << '\n';
 }
 
-Vector3D RayColor(const Ray& ray, const Hittable& world)
+Vector3D RayColor(const Ray& ray, const Hittable& world, int depth)
 {
+	// If we are at the maximum depth, we return a zero vector
+	if (depth <= 0)
+	{
+		return Vector3D{};
+	}
+
 	// We check if we hit any object in the world
 	HitData hitData{};
-	if (world.Hit(ray, 0, constants::infinity, hitData))
+	if (world.Hit(ray, 0.001f, constants::infinity, hitData))
 	{
-		return Vector3D{ 0.5f * (hitData.normal + Vector3D{ 1.0f, 1.0f, 1.0f }) };
-	}
+		Vector3D target{ hitData.point + hitData.normal + Vector3D::RandomHemisphere(hitData.normal) };
+		return  0.5f * RayColor(Ray{ hitData.point, target - hitData.point }, world, --depth);
+	};
 
 	// White
 	static const Vector3D startColor{ 1.0f, 1.0f, 1.0f };

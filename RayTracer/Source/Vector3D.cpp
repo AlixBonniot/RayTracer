@@ -1,4 +1,5 @@
 #include "Vector3D.h"
+#include "rtinc.h"
 
 #include <cmath>
 
@@ -127,6 +128,48 @@ bool Vector3D::operator==(const Vector3D& rhs) const
 bool Vector3D::operator!=(const Vector3D& rhs) const
 {
 	return !(*this == rhs);
+}
+
+Vector3D Vector3D::RandomVector()
+{
+	return Vector3D{ RandomFloat(), RandomFloat(), RandomFloat() };
+}
+
+Vector3D Vector3D::RandomVector(const float min, const float max)
+{
+	return Vector3D{ RandomFloat(min, max), RandomFloat(min, max), RandomFloat(min, max) };
+}
+
+Vector3D Vector3D::RandomUnitSphere()
+{
+	// This function will helps generate a diffuse material
+	// First we pick a random point in a cube of -1.0f - 1.0f dimensions
+	// Then we return it, if it's inside a unit sphere
+	Vector3D point{};
+	do
+	{
+		point = Vector3D::RandomVector(-1.0f, 1.0f);
+	} while (point.LengthSquared() >= 1.0f);
+
+	return point;
+}
+
+Vector3D Vector3D::RandomUnitSphereNormalized()
+{
+	return RandomUnitSphere().Normalize();
+}
+
+Vector3D Vector3D::RandomHemisphere(const Vector3D& normal)
+{
+	// We return point that are on the same hemisphere as the normal
+	// This method is know as hemispherical scattering
+	Vector3D point{ RandomUnitSphere() };
+	if (Vector3D::Dot(point, normal) > 0.0f)
+	{
+		return point;
+	}
+
+	return -point;
 }
 
 Vector3D operator*(const Vector3D& vector, const float scalar)

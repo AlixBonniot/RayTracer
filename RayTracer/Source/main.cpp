@@ -23,7 +23,8 @@ int main()
 
 	/*** Camera ***/
 	Camera camera{ aspectRatio };
-	const int sample{ 1 };
+	const int sample{ 50 };
+	const int maxDepth{ 50 };
 
 	/*** Render ***/
 	std::cout << "P3\n" << imageWidth << ' ' << imageHeight << "\n255\n";
@@ -33,14 +34,17 @@ int main()
 		std::cerr << "\rScanline remaining: " << column << ' ' << std::flush;
 		for (int row{ 0 }; row < imageWidth; ++row)
 		{
+			// Anti-alliasing process
 			Vector3D pixel{};
 			for (int i{ 0 }; i < sample; ++i)
 			{
-				float u{ (float(row) + Random()) / (imageWidth - 1)};
-				float v{ (float(column) + Random()) / (imageHeight - 1)};
+				// Based on the number of sample we want, we pick sample around the
+				// pixel to generate a blended pixel of the colors around him
+				float u{ (float(row) + RandomFloat()) / (imageWidth - 1)};
+				float v{ (float(column) + RandomFloat()) / (imageHeight - 1)};
 
 				const Ray ray{ camera.GetRay(u, v) };
-				pixel += RayColor(ray, world);
+				pixel += RayColor(ray, world, maxDepth);
 			}
 
 			WritePixel(std::cout, pixel, sample);

@@ -36,6 +36,14 @@ public:
 	bool operator==(const Vector3D& rhs) const;
 	bool operator!=(const Vector3D& rhs) const;
 
+	static Vector3D RandomVector();
+	static Vector3D RandomVector(const float min, const float max);
+
+	// Used for diffuse material
+	static Vector3D RandomUnitSphere();
+	static Vector3D RandomUnitSphereNormalized();
+	static Vector3D RandomHemisphere(const Vector3D& normal);
+
 public:
 	float x;
 	float y;
