@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-namespace Config
+namespace config
 {
-	static constexpr float epsilon{ 0.00001f };
+	static constexpr float epsilon{ 1e-8f };
 }
 
 class Vector3D
@@ -44,6 +44,11 @@ public:
 	static Vector3D RandomUnitSphereNormalized();
 	static Vector3D RandomHemisphere(const Vector3D& normal);
 
+	// Used for metallic material
+	static Vector3D Reflect(const Vector3D& v, const Vector3D& n);
+
+	bool NearZero() const;
+
 public:
 	float x;
 	float y;
@@ -52,6 +57,7 @@ public:
 
 Vector3D operator*(const Vector3D& vector, const float scalar);
 Vector3D operator*(const float scalar, const Vector3D& vector);
+Vector3D operator*(const Vector3D& rhs, const Vector3D& lhs);
 
 std::ostream& operator<<(std::ostream& out, const Vector3D& vector);
 

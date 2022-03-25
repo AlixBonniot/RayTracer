@@ -88,6 +88,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Metal.cpp" />
+    <ClCompile Include="Source\Lambertian.cpp" />
+    <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\HittableList.cpp" />
     <ClCompile Include="Source\Hittable.cpp" />
@@ -98,6 +101,9 @@
     <ClCompile Include="Source\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Metal.h" />
+    <ClInclude Include="Source\Lambertian.h" />
+    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\HittableList.h" />
     <ClInclude Include="Source\Hittable.h" />

@@ -1,5 +1,7 @@
 #include "Camera.h"
 #include "HittableList.h"
+#include "Lambertian.h"
+#include "Metal.h"
 #include "Sphere.h"
 #include "Utility.h"
 #include "rtinc.h"
@@ -18,8 +20,18 @@ int main()
 
 	/*** World ***/
 	HittableList world{};
-	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, 0.0f, -1.0f }, 0.5f }));
-	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, -100.5f, -1.0f }, 100.0f }));
+
+	// Material
+	std::shared_ptr<Lambertian> centerMaterial{ std::make_shared<Lambertian>(Vector3D{ 0.7f, 0.3f, 0.3f }) };
+	std::shared_ptr<Metal> leftMaterial{ std::make_shared<Metal>(Vector3D{ 0.8f, 0.8f, 0.8f }) };
+	std::shared_ptr<Metal> rightMaterial{ std::make_shared<Metal>(Vector3D{ 0.8f, 0.6f, 0.2f }) };
+	std::shared_ptr<Lambertian> groundMaterial{ std::make_shared<Lambertian>(Vector3D{ 0.8f, 0.8f, 0.0f }) };
+
+	// Objects
+	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, 0.0f, -1.0f }, 0.5f, centerMaterial }));
+	world.Add(std::make_shared<Sphere>(Sphere{ { -1.0f, 0.0f, -1.0f }, 0.5f, leftMaterial }));
+	world.Add(std::make_shared<Sphere>(Sphere{ { 1.0f, 0.0f, -1.0f }, 0.5f, rightMaterial }));
+	world.Add(std::make_shared<Sphere>(Sphere{ { 0.0f, -100.5f, -1.0f }, 100.0f, groundMaterial }));
 
 	/*** Camera ***/
 	Camera camera{ aspectRatio };

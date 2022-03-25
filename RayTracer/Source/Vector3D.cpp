@@ -45,7 +45,7 @@ Vector3D Vector3D::Cross(const Vector3D& lhs, const Vector3D& rhs)
 Vector3D& Vector3D::Normalize()
 {
 	const float vector_length{ Length() };
-	if (vector_length < Config::epsilon)
+	if (vector_length < config::epsilon)
 	{
 		return *this;
 	}
@@ -116,7 +116,7 @@ bool Vector3D::operator==(const Vector3D& rhs) const
 	Vector3D difference{ *this - rhs };
 	// We use epsilon squared in order to avoid
 	// the full length computation
-	const float epsilon_squared{ Config::epsilon * Config::epsilon };
+	const float epsilon_squared{ config::epsilon * config::epsilon };
 	if (difference.LengthSquared() < epsilon_squared)
 	{
 		return true;
@@ -172,6 +172,17 @@ Vector3D Vector3D::RandomHemisphere(const Vector3D& normal)
 	return -point;
 }
 
+Vector3D Vector3D::Reflect(const Vector3D& v, const Vector3D& n)
+{
+	return v - 2 * Vector3D::Dot(v, n) * n;
+}
+
+// Check if the vector is zero on all dimensions
+bool Vector3D::NearZero() const
+{
+	return (x < config::epsilon) && (y < config::epsilon) && (z < config::epsilon);
+}
+
 Vector3D operator*(const Vector3D& vector, const float scalar)
 {
 	return Vector3D{ vector } *= scalar;
@@ -180,6 +191,11 @@ Vector3D operator*(const Vector3D& vector, const float scalar)
 Vector3D operator*(const float scalar, const Vector3D& vector)
 {
 	return Vector3D{ vector } *= scalar;
+}
+
+Vector3D operator*(const Vector3D& rhs, const Vector3D& lhs)
+{
+	return Vector3D{ rhs.x * lhs.x, rhs.y * lhs.y, rhs.z * lhs.z };
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector3D& vector)

@@ -1,4 +1,5 @@
 #include "Utility.h"
+#include "Material.h"
 #include "rtinc.h"
 
 // Function that write a pixel to the stream
@@ -36,8 +37,15 @@ Vector3D RayColor(const Ray& ray, const Hittable& world, int depth)
 	HitData hitData{};
 	if (world.Hit(ray, 0.001f, constants::infinity, hitData))
 	{
-		Vector3D target{ hitData.point + hitData.normal + Vector3D::RandomHemisphere(hitData.normal) };
-		return  0.5f * RayColor(Ray{ hitData.point, target - hitData.point }, world, --depth);
+		Ray scattered{};
+		Vector3D attenuation{};
+
+		if (hitData.material->Scatter(ray, hitData, attenuation, scattered))
+		{
+			return attenuation * RayColor(scattered, world, --depth);
+		}
+
+		return Vector3D{};
 	};
 
 	// White

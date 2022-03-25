@@ -6,10 +6,13 @@
 #include "Ray.h"
 #include "Vector3D.h"
 
+class Material;
+
 struct HitData
 {
 	Vector3D point;
 	Vector3D normal;
+	std::shared_ptr<Material> material;
 	bool bFrontFace;
 	float t;
 

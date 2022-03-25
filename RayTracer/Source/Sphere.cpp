@@ -6,9 +6,10 @@ Sphere::Sphere()
 {
 }
 
-Sphere::Sphere(const Vector3D& center, const float radius)
+Sphere::Sphere(const Vector3D& center, const float radius, std::shared_ptr<Material> material)
 : m_center{ center }
 , m_radius{ radius }
+, m_material{ material }
 {
 }
 
@@ -44,6 +45,7 @@ bool Sphere::Hit(const Ray& ray, const float tMin, const float tMax, HitData& hi
 	// We compute the hit data
 	hitData.t = root;
 	hitData.point = ray.At(hitData.t);
+	hitData.material = m_material;
 	Vector3D outwardNormal{ (hitData.point - m_center) / m_radius };
 	hitData.SetFaceNormal(ray, outwardNormal);
 	return true;

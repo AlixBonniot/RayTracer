@@ -7,7 +7,7 @@ class Sphere : public Hittable
 {
 public:
 	Sphere();
-	Sphere(const Vector3D& center, const float radius);
+	Sphere(const Vector3D& center, const float radius, std::shared_ptr<Material> material);
 
 	virtual bool Hit(const Ray& ray, const float tMin, const float tMax, HitData& hitData) const override;
 
@@ -17,6 +17,7 @@ public:
 private:
 	Vector3D m_center;
 	float m_radius;
+	std::shared_ptr<Material> m_material;
 };
 
 #endif
